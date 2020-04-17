@@ -1,90 +1,454 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  
-  
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-    
-    
-    <link rel="shortcut icon" href="../../img/favicon.ico">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
-    <title>Spring中的动态代理 - 我的博客</title>
-    <link href="../../css/bootstrap-3.3.7.min.css" rel="stylesheet">
-    <link href="../../css/font-awesome-4.7.0.css" rel="stylesheet">
-    <link href="../../css/base.css" rel="stylesheet">
-    <link rel="stylesheet" href="../../css/highlight.css">
-    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!--[if lt IE 9]>
-        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-        <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
-    <![endif]-->
 
-    <script src="../../js/jquery-3.2.1.min.js"></script>
-    <script src="../../js/bootstrap-3.3.7.min.js"></script>
-    <script src="../../js/highlight.pack.js"></script>
+
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
     
-    <base target="_top">
-    <script>
-      var base_url = '../..';
-      var is_top_frame = false;
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      <link rel="shortcut icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.1, mkdocs-material-5.1.0">
+    
+    
+      
+        <title>Spring中的动态代理 - 我的博客</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.89dc9fe3.min.css">
+      
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ecd4686e.min.css">
+      
+      
         
-        var pageToc = [
-          {title: "\u57fa\u4e8e==\u63a5\u53e3==\u7684\u52a8\u6001\u4ee3\u7406", url: "#_top", children: [
-          ]},
-          {title: "\u57fa\u4e8e==\u5b50\u7c7b==\u7684\u52a8\u6001\u4ee3\u7406", url: "#_2", children: [
-          ]},
-        ];
-
-    </script>
-    <script src="../../js/base.js"></script> 
-</head>
-
-<body>
-<script>
-if (is_top_frame) { $('body').addClass('wm-top-page'); }
-</script>
-
-
-
-<div class="container-fluid wm-page-content">
-  <a name="_top"></a>
+        
+        <meta name="theme-color" content="#e91e63">
+      
     
-
+    
+    
+      
+        <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback">
+        <style>body,input{font-family:"Roboto",-apple-system,BlinkMacSystemFont,Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"Roboto Mono",SFMono-Regular,Consolas,Menlo,monospace}</style>
+      
+    
+    
     
     
       
     
+    
+  </head>
+  
+  
+    
+    
+    <body dir="" data-md-color-primary="pink" data-md-color-accent="purple">
+  
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#_1" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      <header class="md-header" data-md-component="header">
+  <nav class="md-header-nav md-grid" aria-label="">
+    <a href="../.." title="我的博客" class="md-header-nav__button md-logo" aria-label="我的博客">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12,8A3,3 0 0,0 15,5A3,3 0 0,0 12,2A3,3 0 0,0 9,5A3,3 0 0,0 12,8M12,11.54C9.64,9.35 6.5,8 3,8V19C6.5,19 9.64,20.35 12,22.54C14.36,20.35 17.5,19 21,19V8C17.5,8 14.36,9.35 12,11.54Z" /></svg>
 
-  <div class="row wm-article-nav-buttons" role="navigation" aria-label="navigation">
-    
-    <div class="wm-article-nav pull-right">
-      <a href="../3%E3%80%81Spring%20AOP/" class="btn btn-xs btn-default pull-right">
-        Next
-        <i class="fa fa-chevron-right" aria-hidden="true"></i>
-      </a>
-      <a href="../3%E3%80%81Spring%20AOP/" class="btn btn-xs btn-link">
-        Spring AOP
-      </a>
+    </a>
+    <label class="md-header-nav__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3,6H21V8H3V6M3,11H21V13H3V11M3,16H21V18H3V16Z" /></svg>
+    </label>
+    <div class="md-header-nav__title" data-md-component="header-title">
+      
+        <div class="md-header-nav__ellipsis">
+          <span class="md-header-nav__topic md-ellipsis">
+            我的博客
+          </span>
+          <span class="md-header-nav__topic md-ellipsis">
+            
+              Spring中的动态代理
+            
+          </span>
+        </div>
+      
     </div>
     
-    <div class="wm-article-nav">
-      <a href="../1%E3%80%81Spring%20IOC%20%E4%B8%AD%E7%9A%84%E6%B3%A8%E8%A7%A3/" class="btn btn-xs btn-default pull-left">
-        <i class="fa fa-chevron-left" aria-hidden="true"></i>
-        Previous</a><a href="../1%E3%80%81Spring%20IOC%20%E4%B8%AD%E7%9A%84%E6%B3%A8%E8%A7%A3/" class="btn btn-xs btn-link">
-        Spring IOC 中的注解
-      </a>
+      <label class="md-header-nav__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5,3A6.5,6.5 0 0,1 16,9.5C16,11.11 15.41,12.59 14.44,13.73L14.71,14H15.5L20.5,19L19,20.5L14,15.5V14.71L13.73,14.44C12.59,15.41 11.11,16 9.5,16A6.5,6.5 0 0,1 3,9.5A6.5,6.5 0 0,1 9.5,3M9.5,5C7,5 5,7 5,9.5C5,12 7,14 9.5,14C12,14 14,12 14,9.5C14,7 12,5 9.5,5Z" /></svg>
+      </label>
+      
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" data-md-state="active">
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5,3A6.5,6.5 0 0,1 16,9.5C16,11.11 15.41,12.59 14.44,13.73L14.71,14H15.5L20.5,19L19,20.5L14,15.5V14.71L13.73,14.44C12.59,15.41 11.11,16 9.5,16A6.5,6.5 0 0,1 3,9.5A6.5,6.5 0 0,1 9.5,3M9.5,5C7,5 5,7 5,9.5C5,12 7,14 9.5,14C12,14 14,12 14,9.5C14,7 12,5 9.5,5Z" /></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20,11V13H8L13.5,18.5L12.08,19.92L4.16,12L12.08,4.08L13.5,5.5L8,11H20Z" /></svg>
+      </label>
+      <button type="reset" class="md-search__icon md-icon" aria-label="" data-md-component="search-reset" tabindex="-1">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z" /></svg>
+      </button>
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            键入以开始搜索
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
     </div>
-    
   </div>
+</div>
+    
+    
+  </nav>
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+        
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              <div class="md-sidebar md-sidebar--primary" data-md-component="navigation">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    <nav class="md-nav md-nav--primary" aria-label="" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="我的博客" class="md-nav__button md-logo" aria-label="我的博客">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12,8A3,3 0 0,0 15,5A3,3 0 0,0 12,2A3,3 0 0,0 9,5A3,3 0 0,0 12,8M12,11.54C9.64,9.35 6.5,8 3,8V19C6.5,19 9.64,20.35 12,22.54C14.36,20.35 17.5,19 21,19V8C17.5,8 14.36,9.35 12,11.54Z" /></svg>
+
+    </a>
+    我的博客
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../.." title="主页" class="md-nav__link">
+      主页
+    </a>
+  </li>
 
     
+      
+      
+      
 
-    <ul>
-<li>
-<p>动态代理：</p>
+  
+
+
+  <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-2" type="checkbox" id="nav-2" checked>
+    
+    <label class="md-nav__link" for="nav-2">
+      Spring
+      <span class="md-nav__icon md-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M8.59,16.58L13.17,12L8.59,7.41L10,6L16,12L10,18L8.59,16.58Z" /></svg>
+      </span>
+    </label>
+    <nav class="md-nav" aria-label="Spring" data-md-level="1">
+      <label class="md-nav__title" for="nav-2">
+        <span class="md-nav__icon md-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20,11V13H8L13.5,18.5L12.08,19.92L4.16,12L12.08,4.08L13.5,5.5L8,11H20Z" /></svg>
+        </span>
+        Spring
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../1%E3%80%81Spring%20IOC%20%E4%B8%AD%E7%9A%84%E6%B3%A8%E8%A7%A3/" title="Spring IOC 中的注解" class="md-nav__link">
+      Spring IOC 中的注解
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active">
+    
+    <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+    
+    
+      <label class="md-nav__link md-nav__link--active" for="__toc">
+        Spring中的动态代理
+        <span class="md-nav__icon md-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3,9H17V7H3V9M3,13H17V11H3V13M3,17H17V15H3V17M19,17H21V15H19V17M19,7V9H21V7H19M19,13H21V11H19V13Z" /></svg>
+        </span>
+      </label>
+    
+    <a href="./" title="Spring中的动态代理" class="md-nav__link md-nav__link--active">
+      Spring中的动态代理
+    </a>
+    
+      
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20,11V13H8L13.5,18.5L12.08,19.92L4.16,12L12.08,4.08L13.5,5.5L8,11H20Z" /></svg>
+      </span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    动态代理
+  </a>
+  
+    <nav class="md-nav" aria-label="动态代理">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    基于接口的动态代理
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    基于子类的动态代理
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+    
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../3%E3%80%81Spring%20AOP/" title="Spring AOP" class="md-nav__link">
+      Spring AOP
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../4%E3%80%81Spring%20%E4%BA%8B%E5%8A%A1/" title="Spring 事务" class="md-nav__link">
+      Spring 事务
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../5%E3%80%81%E6%9C%AC%E6%AC%A1Spring%E6%95%99%E7%A8%8B%E4%B8%AD%E6%B6%89%E5%8F%8A%E7%9A%84%E7%9B%B8%E5%85%B3%E4%BE%9D%E8%B5%96/" title="本次Spring教程中涉及的相关依赖" class="md-nav__link">
+      本次Spring教程中涉及的相关依赖
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-3" type="checkbox" id="nav-3">
+    
+    <label class="md-nav__link" for="nav-3">
+      SpringBoot
+      <span class="md-nav__icon md-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M8.59,16.58L13.17,12L8.59,7.41L10,6L16,12L10,18L8.59,16.58Z" /></svg>
+      </span>
+    </label>
+    <nav class="md-nav" aria-label="SpringBoot" data-md-level="1">
+      <label class="md-nav__title" for="nav-3">
+        <span class="md-nav__icon md-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20,11V13H8L13.5,18.5L12.08,19.92L4.16,12L12.08,4.08L13.5,5.5L8,11H20Z" /></svg>
+        </span>
+        SpringBoot
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../SpringBoot/SpringBoot%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF/" title="SpringBoot核心技术" class="md-nav__link">
+      SpringBoot核心技术
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../SpringBoot/springboot-%E9%AB%98%E7%BA%A7/" title="springboot-高级" class="md-nav__link">
+      springboot-高级
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../../about/" title="关于" class="md-nav__link">
+      关于
+    </a>
+  </li>
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="toc">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20,11V13H8L13.5,18.5L12.08,19.92L4.16,12L12.08,4.08L13.5,5.5L8,11H20Z" /></svg>
+      </span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    动态代理
+  </a>
+  
+    <nav class="md-nav" aria-label="动态代理">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    基于接口的动态代理
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    基于子类的动态代理
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                
+                  
+                
+                
+                  <h1>Spring中的动态代理</h1>
+                
+                <h2 id="_1">动态代理<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
 <ul>
 <li>
 <p>特点：字节码随用随创建，随用随加载</p>
@@ -95,21 +459,17 @@ if (is_top_frame) { $('body').addClass('wm-top-page'); }
 <li>
 <p>分类：</p>
 <ol>
-<li>
-<p>基于接口的动态代理</p>
-</li>
-<li>
-<p>基于子类的动态代理</p>
-</li>
+<li>基于接口的动态代理</li>
 </ol>
 </li>
-<li>
-<p><strong>基于==接口==的动态代理：</strong></p>
+<li>基于子类的动态代理</li>
+</ul>
+<h3 id="_2">基于接口的动态代理<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h3>
 <blockquote>
 <p>涉及的类：Proxy</p>
 <p>提供者：JDK官方</p>
 <p>如何创建代理对象：</p>
-<p>​        使用Proxy类中的<code>newProxyInstance()</code>方法</p>
+<p>​     使用Proxy类中的<code>newProxyInstance()</code>方法</p>
 </blockquote>
 <ul>
 <li>创建代理对象的要求：</li>
@@ -120,132 +480,164 @@ if (is_top_frame) { $('body').addClass('wm-top-page'); }
 </ul>
 <blockquote>
 <p><code>ClassLoader</code>：类加载器</p>
-<p>​      它是用于加载代理对象字节码的。和被代理对象使用相同的类加载器。固定写法。</p>
+<p>​       它是用于加载代理对象字节码的。和被代理对象使用相同的类加载器。固定写法。</p>
 <p><code>Class[]</code>：字节码数组</p>
-<p>​      它是用于让代理对象和被代理对象有相同方法。固定写法。</p>
+<p>​       它是用于让代理对象和被代理对象有相同方法。固定写法。</p>
 <p><code>InvocationHandler</code>：用于提供增强的代码</p>
 </blockquote>
-</li>
-<li>
-<p><strong>基于==子类==的动态代理：</strong></p>
-</li>
-</ul>
+<div class="highlight"><pre><span></span><code><span class="n">IProducer</span> <span class="n">proxyProducer</span> <span class="o">=</span> <span class="p">(</span><span class="n">IProducer</span><span class="p">)</span> <span class="n">Proxy</span><span class="p">.</span><span class="na">newProxyInstance</span><span class="p">(</span><span class="n">producer</span><span class="p">.</span><span class="na">getClass</span><span class="p">().</span><span class="na">getClassLoader</span><span class="p">(),</span><span class="n">producer</span><span class="p">.</span><span class="na">getClass</span><span class="p">().</span><span class="na">getInterfaces</span><span class="p">(),</span><span class="k">new</span> <span class="n">InvocationHandler</span><span class="p">()</span> <span class="p">{</span>
+    <span class="cm">/**</span>
+<span class="cm">    * 作用：执行被代理对象的任何接口方法都会经过该方法</span>
+<span class="cm">    * 方法参数的含义</span>
+<span class="cm">    * @param proxy   代理对象的引用</span>
+<span class="cm">    * @param method  当前执行的方法</span>
+<span class="cm">    * @param args    当前执行方法所需的参数</span>
+<span class="cm">    * @return        和被代理对象方法有相同的返回值</span>
+<span class="cm">    * @throws Throwable</span>
+<span class="cm">    */</span>
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="n">Object</span> <span class="nf">invoke</span><span class="p">(</span><span class="n">Object</span> <span class="n">proxy</span><span class="p">,</span> <span class="n">Method</span> <span class="n">method</span><span class="p">,</span> <span class="n">Object</span><span class="o">[]</span> <span class="n">args</span><span class="p">)</span> <span class="kd">throws</span> <span class="n">Throwable</span><span class="p">{</span>
+        <span class="c1">//提供增强的代码</span>
+        <span class="n">Object</span> <span class="n">returnValue</span> <span class="o">=</span> <span class="kc">null</span><span class="p">;</span>
+
+        <span class="c1">//1.获取方法执行的参数</span>
+        <span class="n">Float</span> <span class="n">money</span> <span class="o">=</span> <span class="p">(</span><span class="n">Float</span><span class="p">)</span><span class="n">args</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span><span class="p">;</span>
+        <span class="c1">//2.判断当前方法是不是销售</span>
+        <span class="k">if</span><span class="p">(</span><span class="s">&quot;saleProduct&quot;</span><span class="p">.</span><span class="na">equals</span><span class="p">(</span><span class="n">method</span><span class="p">.</span><span class="na">getName</span><span class="p">()))</span> <span class="p">{</span>
+            <span class="n">returnValue</span> <span class="o">=</span> <span class="n">method</span><span class="p">.</span><span class="na">invoke</span><span class="p">(</span><span class="n">producer</span><span class="p">,</span> <span class="n">money</span><span class="o">*</span><span class="mf">0.8f</span><span class="p">);</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="n">returnValue</span><span class="p">;</span>
+        <span class="p">}</span>
+<span class="p">});</span>
+</code></pre></div>
+
+<h3 id="_3">基于子类的动态代理<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h3>
 <blockquote>
 <p>涉及的类：Enhancer</p>
 <p>提供者：第三方cglib库</p>
 <p>如何创建代理对象：</p>
-<p>​      使用Enhancer类中的<code>create()</code>方法</p>
+<p>​     使用Enhancer类中的<code>create()</code>方法</p>
 </blockquote>
 <ul>
-<li>
-<p>创建代理对象的要求：</p>
+<li>创建代理对象的要求：</li>
+</ul>
 <p>被代理类不能是最终类</p>
-</li>
-<li>
-<p><code>create()</code>方法的参数：</p>
+<ul>
+<li><code>create()</code>方法的参数：</li>
+</ul>
 <blockquote>
 <p>Class：字节码</p>
-<p>​        它是用于指定被代理对象的字节码。</p>
+<p>​       它是用于指定被代理对象的字节码。</p>
 <p>Callback：用于提供增强的代码</p>
 </blockquote>
-</li>
-</ul>
 <p>它是让我们写如何代理。我们一般都是些一个该接口的实现类，通常情况下都是匿名内部类，但不是必须的。</p>
-<p>==此接口的实现类都是谁用谁写。==</p>
-</li>
-</ul>
-<h4 id="_1">基于==接口==的动态代理</h4>
-<pre><code class="java">IProducer proxyProducer = (IProducer) Proxy.newProxyInstance(producer.getClass().getClassLoader(),producer.getClass().getInterfaces(),new InvocationHandler() {
-    /**
-    * 作用：执行被代理对象的任何接口方法都会经过该方法
-    * 方法参数的含义
-    * @param proxy   代理对象的引用
-    * @param method  当前执行的方法
-    * @param args    当前执行方法所需的参数
-    * @return        和被代理对象方法有相同的返回值
-    * @throws Throwable
-    */
-    @Override
-    public Object invoke(Object proxy, Method method, Object[] args) throws Throwable{
-        //提供增强的代码
-        Object returnValue = null;
+<p><mark>此接口的实现类都是谁用谁写。</mark></p>
+<div class="highlight"><pre><span></span><code><span class="n">Producer</span> <span class="n">cglibProducer</span> <span class="o">=</span> <span class="p">(</span><span class="n">Producer</span><span class="p">)</span><span class="n">Enhancer</span><span class="p">.</span><span class="na">create</span><span class="p">(</span><span class="n">producer</span><span class="p">.</span><span class="na">getClass</span><span class="p">(),</span> <span class="k">new</span> <span class="n">MethodInterceptor</span><span class="p">()</span> <span class="p">{</span>
+    <span class="cm">/**</span>
+<span class="cm">    * 执行北地阿里对象的任何方法都会经过该方法</span>
+<span class="cm">    * @param proxy</span>
+<span class="cm">    * @param method</span>
+<span class="cm">    * @param args</span>
+<span class="cm">    *    以上三个参数和基于接口的动态代理中invoke方法的参数是一样的</span>
+<span class="cm">    * @param methodProxy ：当前执行方法的代理对象</span>
+<span class="cm">    * @return</span>
+<span class="cm">    * @throws Throwable</span>
+<span class="cm">    */</span>
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="n">Object</span> <span class="nf">intercept</span><span class="p">(</span><span class="n">Object</span> <span class="n">proxy</span><span class="p">,</span> <span class="n">Method</span> <span class="n">method</span><span class="p">,</span> <span class="n">Object</span><span class="o">[]</span> <span class="n">args</span><span class="p">,</span> <span class="n">MethodProxy</span> <span class="n">methodProxy</span><span class="p">)</span> <span class="kd">throws</span> <span class="n">Throwable</span> <span class="p">{</span>
+        <span class="c1">//提供增强的代码</span>
+        <span class="n">Object</span> <span class="n">returnValue</span> <span class="o">=</span> <span class="kc">null</span><span class="p">;</span>
 
-        //1.获取方法执行的参数
-        Float money = (Float)args[0];
-        //2.判断当前方法是不是销售
-        if(&quot;saleProduct&quot;.equals(method.getName())) {
-            returnValue = method.invoke(producer, money*0.8f);
-        }
-        return returnValue;
-        }
-});
-</code></pre>
+        <span class="c1">//1.获取方法执行的参数</span>
+        <span class="n">Float</span> <span class="n">money</span> <span class="o">=</span> <span class="p">(</span><span class="n">Float</span><span class="p">)</span><span class="n">args</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span><span class="p">;</span>
+        <span class="c1">//2.判断当前方法是不是销售</span>
+        <span class="k">if</span><span class="p">(</span><span class="s">&quot;saleProduct&quot;</span><span class="p">.</span><span class="na">equals</span><span class="p">(</span><span class="n">method</span><span class="p">.</span><span class="na">getName</span><span class="p">()))</span> <span class="p">{</span>
+            <span class="n">returnValue</span> <span class="o">=</span> <span class="n">method</span><span class="p">.</span><span class="na">invoke</span><span class="p">(</span><span class="n">producer</span><span class="p">,</span> <span class="n">money</span><span class="o">*</span><span class="mf">0.8f</span><span class="p">);</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="n">returnValue</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">});</span>
+<span class="n">cglibProducer</span><span class="p">.</span><span class="na">saleProduct</span><span class="p">(</span><span class="mi">12000</span><span class="n">f</span><span class="p">);</span>
+</code></pre></div>
+                
+              
+              
+                
 
-<h4 id="_2">基于==子类==的动态代理</h4>
-<pre><code class="java">Producer cglibProducer = (Producer)Enhancer.create(producer.getClass(), new MethodInterceptor() {
-    /**
-    * 执行北地阿里对象的任何方法都会经过该方法
-    * @param proxy
-    * @param method
-    * @param args
-    *    以上三个参数和基于接口的动态代理中invoke方法的参数是一样的
-    * @param methodProxy ：当前执行方法的代理对象
-    * @return
-    * @throws Throwable
-    */
-    @Override
-    public Object intercept(Object proxy, Method method, Object[] args, MethodProxy methodProxy) throws Throwable {
-        //提供增强的代码
-        Object returnValue = null;
 
-        //1.获取方法执行的参数
-        Float money = (Float)args[0];
-        //2.判断当前方法是不是销售
-        if(&quot;saleProduct&quot;.equals(method.getName())) {
-            returnValue = method.invoke(producer, money*0.8f);
-        }
-        return returnValue;
-    }
-});
-cglibProducer.saleProduct(12000f);
-</code></pre>
-
-  <br>
+              
+            </article>
+          </div>
+        </div>
+      </main>
+      
+        
+<footer class="md-footer">
+  
+    <div class="md-footer-nav">
+      <nav class="md-footer-nav__inner md-grid" aria-label="">
+        
+          <a href="../1%E3%80%81Spring%20IOC%20%E4%B8%AD%E7%9A%84%E6%B3%A8%E8%A7%A3/" title="Spring IOC 中的注解" class="md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+            <div class="md-footer-nav__button md-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20,11V13H8L13.5,18.5L12.08,19.92L4.16,12L12.08,4.08L13.5,5.5L8,11H20Z" /></svg>
+            </div>
+            <div class="md-footer-nav__title">
+              <div class="md-ellipsis">
+                <span class="md-footer-nav__direction">
+                  上一页
+                </span>
+                Spring IOC 中的注解
+              </div>
+            </div>
+          </a>
+        
+        
+          <a href="../3%E3%80%81Spring%20AOP/" title="Spring AOP" class="md-footer-nav__link md-footer-nav__link--next" rel="next">
+            <div class="md-footer-nav__title">
+              <div class="md-ellipsis">
+                <span class="md-footer-nav__direction">
+                  下一页
+                </span>
+                Spring AOP
+              </div>
+            </div>
+            <div class="md-footer-nav__button md-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4,11V13H16L10.5,18.5L11.92,19.92L19.84,12L11.92,4.08L10.5,5.5L16,11H4Z" /></svg>
+            </div>
+          </a>
+        
+      </nav>
+    </div>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+        Made with
+        <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+          Material for MkDocs
+        </a>
+      </div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
     
-
-    
-    
+      <script src="../../assets/javascripts/vendor.36cbf620.min.js"></script>
+      <script src="../../assets/javascripts/bundle.00c583dd.min.js"></script><script id="__lang" type="application/json">{"clipboard.copy": "\u590d\u5236", "clipboard.copied": "\u5df2\u590d\u5236", "search.config.lang": "ja", "search.config.pipeline": "", "search.config.separator": "[\\uff0c\\u3002]+", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c"}</script>
+      
+      <script>
+        app = initialize({
+          base: "../..",
+          features: [],
+          search: Object.assign({
+            worker: "../../assets/javascripts/worker/search.7f7c8775.min.js"
+          }, typeof search !== "undefined" && search)
+        })
+      </script>
       
     
-
-  <div class="row wm-article-nav-buttons" role="navigation" aria-label="navigation">
-    
-    <div class="wm-article-nav pull-right">
-      <a href="../3%E3%80%81Spring%20AOP/" class="btn btn-xs btn-default pull-right">
-        Next
-        <i class="fa fa-chevron-right" aria-hidden="true"></i>
-      </a>
-      <a href="../3%E3%80%81Spring%20AOP/" class="btn btn-xs btn-link">
-        Spring AOP
-      </a>
-    </div>
-    
-    <div class="wm-article-nav">
-      <a href="../1%E3%80%81Spring%20IOC%20%E4%B8%AD%E7%9A%84%E6%B3%A8%E8%A7%A3/" class="btn btn-xs btn-default pull-left">
-        <i class="fa fa-chevron-left" aria-hidden="true"></i>
-        Previous</a><a href="../1%E3%80%81Spring%20IOC%20%E4%B8%AD%E7%9A%84%E6%B3%A8%E8%A7%A3/" class="btn btn-xs btn-link">
-        Spring IOC 中的注解
-      </a>
-    </div>
-    
-  </div>
-
-    <br>
-</div>
-
-<footer class="container-fluid wm-page-content">
-  <p>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a> using <a href="https://github.com/gristlabs/mkdocs-windmill">Windmill</a> theme by Grist Labs.</p>
-</footer>
-
-</body>
+  </body>
 </html>
