@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        
+        
+        <link rel="shortcut icon" href="../../img/favicon.ico">
+        <title>2、Spring中的动态代理 - 我的博客</title>
+        <link href="../../css/bootstrap.min.css" rel="stylesheet">
+        <link href="../../css/font-awesome.min.css" rel="stylesheet">
+        <link href="../../css/base.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
+
+        <script src="../../js/jquery-1.10.2.min.js" defer></script>
+        <script src="../../js/bootstrap.min.js" defer></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+        <script>hljs.initHighlightingOnLoad();</script> 
+    </head>
+
+    <body>
+        <div class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
+            <div class="container">
+                <a class="navbar-brand" href="../..">我的博客</a>
+                <!-- Expander button -->
+                <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbar-collapse">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <!-- Expanded navigation -->
+                <div id="navbar-collapse" class="navbar-collapse collapse">
+                        <!-- Main navigation -->
+                        <ul class="nav navbar-nav">
+                            <li class="navitem">
+                                <a href="../.." class="nav-link">主页</a>
+                            </li>
+                            <li class="dropdown active">
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">spring <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../1%E3%80%81Spring%20IOC%20%E4%B8%AD%E7%9A%84%E6%B3%A8%E8%A7%A3/" class="dropdown-item">1、Spring IOC 中的注解</a>
+</li>
+                                    
+<li>
+    <a href="./" class="dropdown-item active">2、Spring中的动态代理</a>
+</li>
+                                    
+<li>
+    <a href="../3%E3%80%81Spring%20AOP/" class="dropdown-item">Spring AOP</a>
+</li>
+                                    
+<li>
+    <a href="../4%E3%80%81Spring%20%E4%BA%8B%E5%8A%A1/" class="dropdown-item">Spring 事务管理配置（tx）</a>
+</li>
+                                    
+<li>
+    <a href="../5%E3%80%81%E6%9C%AC%E6%AC%A1Spring%E6%95%99%E7%A8%8B%E4%B8%AD%E6%B6%89%E5%8F%8A%E7%9A%84%E7%9B%B8%E5%85%B3%E4%BE%9D%E8%B5%96/" class="dropdown-item">5、本次Spring教程中涉及的相关依赖</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="navitem">
+                                <a href="../../SpringIOC/" class="nav-link">Spring教程</a>
+                            </li>
+                            <li class="navitem">
+                                <a href="../../about/" class="nav-link">关于</a>
+                            </li>
+                        </ul>
+
+                    <ul class="nav navbar-nav ml-auto">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" data-toggle="modal" data-target="#mkdocs_search_modal">
+                                <i class="fa fa-search"></i> Search
+                            </a>
+                        </li>
+                            <li class="nav-item">
+                                <a rel="prev" href="../1%E3%80%81Spring%20IOC%20%E4%B8%AD%E7%9A%84%E6%B3%A8%E8%A7%A3/" class="nav-link">
+                                    <i class="fa fa-arrow-left"></i> Previous
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a rel="next" href="../3%E3%80%81Spring%20AOP/" class="nav-link">
+                                    Next <i class="fa fa-arrow-right"></i>
+                                </a>
+                            </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                    <div class="col-md-3"><div class="navbar-light navbar-expand-md bs-sidebar hidden-print affix" role="complementary">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggler collapsed" data-toggle="collapse" data-target="#toc-collapse" title="Table of Contents">
+            <span class="fa fa-angle-down"></span>
+        </button>
+    </div>
+
+    
+    <div id="toc-collapse" class="navbar-collapse collapse card bg-secondary">
+        <ul class="nav flex-column">
+            
+            
+        </ul>
+    </div>
+</div></div>
+                    <div class="col-md-9" role="main">
+
+<ul>
+<li>
+<p>动态代理：</p>
+<ul>
+<li>
+<p>特点：字节码随用随创建，随用随加载</p>
+</li>
+<li>
+<p>作用：不修改源码的基础上对方法增强</p>
+</li>
+<li>
+<p>分类：</p>
+<ol>
+<li>
+<p>基于接口的动态代理</p>
+</li>
+<li>
+<p>基于子类的动态代理</p>
+</li>
+</ol>
+</li>
+<li>
+<p><strong>基于==接口==的动态代理：</strong></p>
+<blockquote>
+<p>涉及的类：Proxy</p>
+<p>提供者：JDK官方</p>
+<p>如何创建代理对象：</p>
+<p>​        使用Proxy类中的<code>newProxyInstance()</code>方法</p>
+</blockquote>
+<ul>
+<li>创建代理对象的要求：</li>
+</ul>
+<p>被代理类最少实现一个接口，如果没有则不能使用</p>
+<ul>
+<li><code>newProxyInstance()</code>方法的参数：</li>
+</ul>
+<blockquote>
+<p><code>ClassLoader</code>：类加载器</p>
+<p>​      它是用于加载代理对象字节码的。和被代理对象使用相同的类加载器。固定写法。</p>
+<p><code>Class[]</code>：字节码数组</p>
+<p>​      它是用于让代理对象和被代理对象有相同方法。固定写法。</p>
+<p><code>InvocationHandler</code>：用于提供增强的代码</p>
+</blockquote>
+</li>
+<li>
+<p><strong>基于==子类==的动态代理：</strong></p>
+</li>
+</ul>
+<blockquote>
+<p>涉及的类：Enhancer</p>
+<p>提供者：第三方cglib库</p>
+<p>如何创建代理对象：</p>
+<p>​      使用Enhancer类中的<code>create()</code>方法</p>
+</blockquote>
+<ul>
+<li>
+<p>创建代理对象的要求：</p>
+<p>被代理类不能是最终类</p>
+</li>
+<li>
+<p><code>create()</code>方法的参数：</p>
+<blockquote>
+<p>Class：字节码</p>
+<p>​        它是用于指定被代理对象的字节码。</p>
+<p>Callback：用于提供增强的代码</p>
+</blockquote>
+</li>
+</ul>
+<p>它是让我们写如何代理。我们一般都是些一个该接口的实现类，通常情况下都是匿名内部类，但不是必须的。</p>
+<p>==此接口的实现类都是谁用谁写。==</p>
+</li>
+</ul>
+<h4 id="_1">基于==接口==的动态代理</h4>
+<pre><code class="java">IProducer proxyProducer = (IProducer) Proxy.newProxyInstance(producer.getClass().getClassLoader(),producer.getClass().getInterfaces(),new InvocationHandler() {
+    /**
+    * 作用：执行被代理对象的任何接口方法都会经过该方法
+    * 方法参数的含义
+    * @param proxy   代理对象的引用
+    * @param method  当前执行的方法
+    * @param args    当前执行方法所需的参数
+    * @return        和被代理对象方法有相同的返回值
+    * @throws Throwable
+    */
+    @Override
+    public Object invoke(Object proxy, Method method, Object[] args) throws Throwable{
+        //提供增强的代码
+        Object returnValue = null;
+
+        //1.获取方法执行的参数
+        Float money = (Float)args[0];
+        //2.判断当前方法是不是销售
+        if(&quot;saleProduct&quot;.equals(method.getName())) {
+            returnValue = method.invoke(producer, money*0.8f);
+        }
+        return returnValue;
+        }
+});
+</code></pre>
+
+<h4 id="_2">基于==子类==的动态代理</h4>
+<pre><code class="java">Producer cglibProducer = (Producer)Enhancer.create(producer.getClass(), new MethodInterceptor() {
+    /**
+    * 执行北地阿里对象的任何方法都会经过该方法
+    * @param proxy
+    * @param method
+    * @param args
+    *    以上三个参数和基于接口的动态代理中invoke方法的参数是一样的
+    * @param methodProxy ：当前执行方法的代理对象
+    * @return
+    * @throws Throwable
+    */
+    @Override
+    public Object intercept(Object proxy, Method method, Object[] args, MethodProxy methodProxy) throws Throwable {
+        //提供增强的代码
+        Object returnValue = null;
+
+        //1.获取方法执行的参数
+        Float money = (Float)args[0];
+        //2.判断当前方法是不是销售
+        if(&quot;saleProduct&quot;.equals(method.getName())) {
+            returnValue = method.invoke(producer, money*0.8f);
+        }
+        return returnValue;
+    }
+});
+cglibProducer.saleProduct(12000f);
+</code></pre></div>
+            </div>
+        </div>
+
+        <footer class="col-md-12">
+            <hr>
+            <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
+        </footer>
+        <script>
+            var base_url = "../..",
+                shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
+        </script>
+        <script src="../../js/base.js" defer></script>
+        <script src="../../search/main.js" defer></script>
+
+        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+                <p>
+                    From here you can search these documents. Enter
+                    your search terms below.
+                </p>
+                <form>
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+    </body>
+</html>
